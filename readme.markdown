@@ -8,8 +8,8 @@ It rotates a DisplayObject, but it does not limit itself to rotate around it's
 registration point, instead it can rotate the object around any point. The point is
 defined in the objects parent coodrinate system.
 
-original author Bartek Drozdz (http://www.everydayflash.com)
-based on version 1.0 (http://code.google.com/p/barteksplayground/source/browse/trunk/src/com/everydayflash/util/Rotator.as)
+Original author Bartek Drozdz ([http://www.everydayflash.com](http://www.everydayflash.com))
+Based on [version 1.0](http://code.google.com/p/barteksplayground/source/browse/trunk/src/com/everydayflash/util/Rotator.as)
 
 Functions
 ---------
