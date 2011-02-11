@@ -22,7 +22,7 @@
 -- DEALINGS IN THE SOFTWARE.
 ----------------------------------------------------------------------------------------------------
 
--- This library is conversion of Bartek Drozdz's actionscript class to lua. It can be used as a 
+-- This library is a conversion of Bartek Drozdz's actionscript class to lua. It can be used as a 
 -- replacement for the DisplayObject.rotation property.
 --
 -- It rotates a DisplayObject, but it does not limit itself to rotate around it's 
