@@ -57,6 +57,14 @@
 module(..., package.seeall)
 
 ----------------------------------------------------------------------------------------------------
+-- cache math functions
+local sqrt  = math.sqrt
+local atan2 = math.atan2
+local pi    = math.pi
+local sin   = math.sin
+local cos   = math.cos
+
+----------------------------------------------------------------------------------------------------
 -- registers a DisplayObject that will be rotated and a registration point around which it will be 
 -- rotated
 -- 
@@ -107,9 +115,9 @@ function Rotator(target, registrationPointX, registrationPointY)
 							
 		local dx = pointX - target.x
 		local dy = pointY - target.y
-		dist = math.sqrt( dx * dx + dy * dy )
+		dist = sqrt( dx * dx + dy * dy )
 							
-		local a = math.atan2(dy, dx) * 180 / math.pi
+		local a = atan2(dy, dx) * 180 / pi
 		offset = 180 - a + target.rotation;
 	end
 	
@@ -121,10 +129,10 @@ function Rotator(target, registrationPointX, registrationPointY)
 		local tpX = target.x 
 		local tpY = target.y
 	
-		local ra = (angle - offset) * math.pi / 180
+		local ra = (angle - offset) * pi / 180
 							
-		target.x = pointX + math.cos(ra) * dist
-		target.y = pointY + math.sin(ra) * dist
+		target.x = pointX + cos(ra) * dist
+		target.y = pointY + sin(ra) * dist
 							
 		target.rotation =  angle
 	end
@@ -144,10 +152,10 @@ function Rotator(target, registrationPointX, registrationPointY)
 		local tpX = target.x 
 		local tpY = target.y
 	
-		local ra = (target.rotation + angle - offset) * math.pi / 180
+		local ra = (target.rotation + angle - offset) * pi / 180
 							
-		target.x = pointX + math.cos(ra) * dist
-		target.y = pointY + math.sin(ra) * dist
+		target.x = pointX + cos(ra) * dist
+		target.y = pointY + sin(ra) * dist
 							
 		target.rotation =  target.rotation + angle
 	end
