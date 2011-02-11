@@ -1,42 +1,70 @@
+-- Rotator Library
+--
+-- Version 1.00
+--
+-- Copyright 2010 Lance Ulmer.
+--
+-- Permission is hereby granted, free of charge, to any person obtaining a copy of 
+-- this software and associated documentation files (the "Software"), to deal in the 
+-- Software without restriction, including without limitation the rights to use, copy, 
+-- modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, 
+-- and to permit persons to whom the Software is furnished to do so, subject to the 
+-- following conditions:
+-- 
+-- The above copyright notice and this permission notice shall be included in all copies 
+-- or substantial portions of the Software.
+-- 
+-- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+-- INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
+-- PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE 
+-- FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+-- OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+-- DEALINGS IN THE SOFTWARE.
+----------------------------------------------------------------------------------------------------
+
+-- This library is conversion of Bartek Drozdz's actionscript class to lua. It can be used as a 
+-- replacement for the DisplayObject.rotation property.
+--
+-- It rotates a DisplayObject, but it does not limit itself to rotate around it's 
+-- registration point, instead it can rotate the object around any point. The point is
+-- defined in the objects parent coodrinate system.
+--
+-- original author Bartek Drozdz (http://www.everydayflash.com)
+-- based on version 1.0 (http://code.google.com/p/barteksplayground/source/browse/trunk/src/com/everydayflash/util/Rotator.as)
+----------------------------------------------------------------------------------------------------
+
+-- example use
+--[[
+   -- load the library
+   local r = require("rotator")
+
+   -- make a new DisplayObject
+   local image = display.newImage("image.png")
+   -- set the object's x and y coordinates
+   image.x = 100
+   image.y = 100
+  
+   -- add the rotator functionality to the object
+   -- also set the rotation point to the center of the screen
+   r.Rotator(image, display.contentWidth * 0.5, display.contentHeight * 0.5)
+   
+   -- now that the object has the rotator funcionality, call it's new method setRotation
+   -- set the angle to 90 degrees
+   image:setRotation(90)
+--]]
+----------------------------------------------------------------------------------------------------
+
 module(..., package.seeall)
 
---[[
-* This class can be used as a replacement for the DisplayObject.rotation property.
-* 
-* It rotates a DisplayObject, but it does not limit itself to rotate around the it's 
-* registration point, instead it can rotate the object around any point. The point is
-* defined in the objects parent coodrinate system.
-* 
-* @author Bartek Drozdz (http://www.everydayflash.com)
-* @version 1.0
---]]
---target = nil --:Object;
-                
---[[
-* A value that is based on the initial rotation of the display object itself, and
-* the angle between the registration point of the display object and of the rotator
---]]
---offset = nil --:Number;
-                
---[[
-* Registration point - the point around which the rotation takse place
---]]
---pointX = nil --:Point;
---pointY = nil
-                
---[[
-* Distance between the registration point of the display object and the registration 
-* point of the rotator
---]]
---dist = nil --:Number;
-
---[[
-* Registers a DisplayObject that will be rotated and an registration Point around which it will be rotated.
-* 
-* @param       target DisplayObject to rotate
-* @param       registrationPoint Point containing the coodrinates around which the object should be rotated 
-*          (in the targets parent coordinate space) If omitted, the displays object x and y coordinates are used
---]]
+----------------------------------------------------------------------------------------------------
+-- registers a DisplayObject that will be rotated and a registration point around which it will be 
+-- rotated
+-- 
+-- @target - target DisplayObject to rotate
+--
+-- @registrationPointX, @registrationPointY - point containing the coordinates around which the 
+-- object should be rotated (in the targets parent coordinate space) if omitted, the displays object 
+-- x and y coordinates are used
 function Rotator(target, registrationPointX, registrationPointY)
 	if not registrationPointX then 
 		registrationPointY = nil 
@@ -45,17 +73,22 @@ function Rotator(target, registrationPointX, registrationPointY)
 		registrationPointY = nil 
 	end
 	
-	local offset = nil --:Number;
-    local pointX = nil --:Point;
+	-- a value that is based on the initial rotation of the display object itself, and
+	-- the angle between the registration point of the display object and of the rotator
+	local offset = nil
+	
+	-- the point around which the rotation take place
+    local pointX = nil
 	local pointY = nil
-    local dist = nil --:Number;
-	--self.target = target
-                
-	--[[
-	* Once set in the constructor, the rotation registration point can be modified an any moment
-	* 
-	* @param       registrationPoint, if null defaults to targets x and y coordinates
-	--]]
+	
+	-- distance between the registration point of the display object and the registration 
+	-- point of the rotator
+    local dist = nil
+    
+    ------------------------------------------------------------------------------------------------
+	-- once set in the constructor, the rotation registration point can be modified at any moment
+	--
+	-- @registrationPointX, @registrationPointY - if null defaults to target's x and y coordinates
 	function target:setRegistrationPoint(registrationPointX, registrationPointY)
 		if not registrationPointX then 
 			registrationPointY = nil 
@@ -71,8 +104,6 @@ function Rotator(target, registrationPointX, registrationPointY)
 			pointX = registrationPointX
 			pointY = registrationPointY
 		end
-		
-		--pointY = target.y
 							
 		local dx = pointX - target.x
 		local dy = pointY - target.y
@@ -81,12 +112,11 @@ function Rotator(target, registrationPointX, registrationPointY)
 		local a = math.atan2(dy, dx) * 180 / math.pi
 		offset = 180 - a + target.rotation;
 	end
-					
-	--[[
-	* Sets the rotation to the angle passed as parameter.
-	* 
-	* Since it uses a getter/setter Rotator can easily be used with Tween or Tweener classes.
-	--]]
+	
+	------------------------------------------------------------------------------------------------
+	-- sets the rotation to the angle passed as parameter
+	--
+	-- @angle - angle (in degrees) to rotate the target DisplayObject
 	function target:setRotation(angle)
 		local tpX = target.x 
 		local tpY = target.y
@@ -98,20 +128,18 @@ function Rotator(target, registrationPointX, registrationPointY)
 							
 		target.rotation =  angle
 	end
-					
-	--[[
-	* Returns current rotation of the target in degrees
-	--]]
+	
+	------------------------------------------------------------------------------------------------
+	-- returns current rotation of the target (in degrees)
 	function target:getRotation()
 		return target.rotation
 	end
-					
-	--[[
-	* Rotates the target by the angle passed as parameter. 
-	* Works the same as Rotator.rotation += angle;
-	* 
-	* @param angle angle by which to rotate the target DisplayObject
-	--]]
+	
+	------------------------------------------------------------------------------------------------
+	-- rotates the target by the angle passed as parameter
+	-- works the same as Rotator.rotation += angle
+	--
+	-- @angle - angle (in degrees) to add to the target DisplayObject's rotation
 	function target:rotateBy(angle)
 		local tpX = target.x 
 		local tpY = target.y
@@ -124,5 +152,8 @@ function Rotator(target, registrationPointX, registrationPointY)
 		target.rotation =  target.rotation + angle
 	end
 	
+	------------------------------------------------------------------------------------------------
+	-- call setRegistrationPoint at the end of the constructor
+	-- use either user defined point or target's x and y coordinates
 	target:setRegistrationPoint(registrationPointX, registrationPointY)
 end
