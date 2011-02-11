@@ -32,26 +32,26 @@ Installation
 
 Drop rotator.lua into your project folder and load it in your main.lua file.
     
-	local r = require("rotator")
+    local r = require("rotator")
 
 Usage
 -----
 
 Execute this code to add the rotator functionality to a DisplayObject (in this case an image)
 
-	-- load the library
-   local r = require("rotator")
+    -- load the library
+    local r = require("rotator")
 
-   -- make a new DisplayObject
-   local image = display.newImage("image.png")
-   -- set the object's x and y coordinates
-   image.x = 100
-   image.y = 100
+    -- make a new DisplayObject
+    local image = display.newImage("image.png")
+    -- set the object's x and y coordinates
+    image.x = 100
+    image.y = 100
   
-   -- add the rotator functionality to the object
-   -- also set the rotation point to the center of the screen
-   r.Rotator(image, display.contentWidth * 0.5, display.contentHeight * 0.5)
+    -- add the rotator functionality to the object
+    -- also set the rotation point to the center of the screen
+    r.Rotator(image, display.contentWidth * 0.5, display.contentHeight * 0.5)
    
-   -- now that the object has the rotator funcionality, call it's new method setRotation
-   -- set the angle to 90 degrees
-   image:setRotation(90)
+    -- now that the object has the rotator funcionality, call it's new method setRotation
+    -- set the angle to 90 degrees
+    image:setRotation(90)
