@@ -1,6 +1,6 @@
 -- Rotator Library
 --
--- Version 1.00
+-- Version 1.01
 --
 -- Copyright 2010 Lance Ulmer.
 --
@@ -75,7 +75,7 @@ local cos   = math.cos
 -- x and y coordinates are used
 function Rotator(target, registrationPointX, registrationPointY)
 	if not registrationPointX then 
-		registrationPointY = nil 
+		registrationPointX = nil 
 	end
 	if not registrationPointY then 
 		registrationPointY = nil 
@@ -99,7 +99,7 @@ function Rotator(target, registrationPointX, registrationPointY)
 	-- @registrationPointX, @registrationPointY - if null defaults to target's x and y coordinates
 	function target:setRegistrationPoint(registrationPointX, registrationPointY)
 		if not registrationPointX then 
-			registrationPointY = nil 
+			registrationPointX = nil 
 		end
 		if not registrationPointY then 
 			registrationPointY = nil 
